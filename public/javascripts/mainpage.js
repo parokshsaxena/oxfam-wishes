@@ -91,7 +91,6 @@ var MessageBox = React.createClass({
 	}
 })
 
-var 
 
 /**Renders messages depending upon type is wishes or teamStatus*/
 var Page = React.createClass({
