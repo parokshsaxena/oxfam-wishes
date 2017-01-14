@@ -84,13 +84,70 @@ var MessageBox = React.createClass({
 		time = this.props.messageDetails.time;
 		return(
 			<div className="well well-sm center-block">
-				<p>{message}</p>
-				<p>{time}</p>
+				<span>{message}</span>
+				<span>{time}</span>
 			</div>
 		)
 	}
 })
 
+var CaptureMessageBox = React.createClass({
+
+	getInitialState : function(){
+		return({
+			username : "",
+			message : ""
+		})
+	},
+
+	captureName : function(event){
+		this.setState({
+			username : event.target.value
+		})
+	},
+
+	captureMessage : function(event){
+		this.setState({
+			message : event.target.value
+		})
+	},
+
+	saveMessage : function(){
+		console.log(this.state.username);
+		console.log(this.state.message);
+	},
+
+	render : function(){
+		return(
+			 <div className="modal-dialog">
+			    <div className="modal-content">
+			      <div className="modal-header">
+			        <button type="button" className="close" data-dismiss="modal">&times;</button>
+			        <h4 className="modal-title">Your wishes will motivate us. Keep them coming!</h4>
+			      </div>
+			      <div className="modal-body">
+				      <form>
+				      	<div className="form-group">
+				      		<input type="text" className="form-control" id="user-name" placeholder="Your Name.."
+				      		onChange={this.captureName}>
+				      		</input>
+				      	</div>
+				      	<div className="form-group">
+				      		<textarea className="form-control" id="message-text" placeholder="Message.."
+				      		onChange={this.captureMessage}>
+				      		</textarea>
+				      	</div>
+				      </form>
+			      </div>
+			      <div className="modal-footer">
+			        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.saveMessage}>Save</button>
+			      </div>
+			    </div>
+
+			</div>
+		)
+	}
+})
 
 /**Renders messages depending upon type is wishes or teamStatus*/
 var Page = React.createClass({
@@ -118,6 +175,9 @@ var Page = React.createClass({
 		})
 	},
 
+	showWriteMessageBox : function(){
+
+	},
 	render : function(){
 		rows = [];
 		this.state.data.forEach(function(eachMessageDetail){
@@ -125,21 +185,25 @@ var Page = React.createClass({
 		})
 
 		return(
-			<div>
+			<div className="container">
 				<div className="navbar navbar-default bg-primary navbar-fixed-top">
 				
 					<ul className="nav nav-pills nav-justified">
 						<li role="presentation" className="col-sm-1 " onClick={this.showWishes}><a href="#wishes">Wishes</a></li>
-						<li role="presentation" ClassName="col-sm-1 " onClick={this.showTeamStatus}><a href="#teamStatus">Team Status</a></li>
-						<li role="presentation" ClassName="col-sm-1"><a href="#Check1">Write your wishes</a></li>
+						<li role="presentation" className="col-sm-1 " onClick={this.showTeamStatus}><a href="#teamStatus">Team Status</a></li>
+						<li role="presentation" className="col-sm-1" data-toggle="modal" data-target="#messageModal"><a href="#writeWishes">Write your wishes</a></li>
 					</ul>
 					
-					</div>
-					<div>
-						{rows}
-					</div>
-				
+				</div>
+				<div>
+					{rows}
+				</div>
+
+				<div id="messageModal" className="modal fade" role="dialog">
+				 <CaptureMessageBox />
+				</div>	
 			</div>
+
 		)
 	}
 })
