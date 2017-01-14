@@ -1,91 +1,14 @@
 /** @jsx React.DOM */
 
-var dataWishes = [{
-	message : "This is my message for your team",
-	time : "14jan 12 pm"
-},
-{
-	message : "This is my 2nd message for your team",
-	time : "14jan 3 pm"
-},
-{
-	message : "This is my message for your team",
-	time : "14jan 12 pm"
-},
-{
-	message : "This is my 2nd message for your team",
-	time : "14jan 3 pm"
-},
-{
-	message : "This is my message for your team",
-	time : "14jan 12 pm"
-},
-{
-	message : "This is my 2nd message for your team",
-	time : "14jan 3 pm"
-},
-{
-	message : "This is my message for your team",
-	time : "14jan 12 pm"
-},
-{
-	message : "This is my 2nd message for your team",
-	time : "14jan 3 pm"
-},
-{
-	message : "This is my message for your team",
-	time : "14jan 12 pm"
-},
-{
-	message : "This is my 2nd message for your team",
-	time : "14jan 3 pm"
-},]
-
-var dataTeamStatus = [{
-	message : "team message 1",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 2",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 1",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 2",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 1",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 2",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 1",
-	time : "14jan 12 pm"
-},
-{
-	message : "team message 2",
-	time : "14jan 12 pm"
-},]
-/*var Messages = React.createClass({
-
-})*/
-
 var MessageBox = React.createClass({
 
 	render : function(){
 		message = this.props.messageDetails.message;
 		time = this.props.messageDetails.time;
+		username = this.props.messageDetails.username;
 		return(
-			<div className="well well-sm center-block">
-				<span>{message}</span>
-				<span>{time}</span>
+			<div className="well well-sm center-block " style={{"border-radius" : "10px"}}>
+				<h4 className="text-center">{message}</h4><small> - {username} ( {time} )</small>
 			</div>
 		)
 	}
@@ -115,6 +38,26 @@ var CaptureMessageBox = React.createClass({
 	saveMessage : function(){
 		console.log(this.state.username);
 		console.log(this.state.message);
+
+		url = "/oxfam-wishes/api/mainpagedata/addUserMessage";
+		data = {
+			message : this.state.message,
+			username : this.state.username
+		};
+
+		$.ajax({
+			url : url,
+			type: "POST",
+			contentType : 'application/json',
+			data : JSON.stringify(data),
+			success : function(result){
+				console.log("Successfully saved ",result)
+			}.bind(this),
+			error : function(result){
+				console.log("Failure ",result)
+			}
+
+		})
 	},
 
 	render : function(){
@@ -153,31 +96,53 @@ var CaptureMessageBox = React.createClass({
 var Page = React.createClass({
 	getInitialState : function(){
 		return {
-			type : "wishes"
+			type : "wishes",
+			data : []
 		}
 	},
 
 	componentWillMount : function(){
-		this.setState({
-			data : dataWishes
+		url = "/oxfam-wishes/api/mainpagedata/getUserMessages"
+		$.ajax({
+			url : url,
+			type : 'GET',
+			success : function(data){
+				console.log("Inside this")
+				console.log(data)
+				this.setState({
+					data : data
+				})
+			}.bind(this)
 		})
 	},
 
 	showWishes : function(){
-		this.setState({
-			data : dataWishes
-		})
+		url = "/oxfam-wishes/api/mainpagedata/getUserMessages"
+		$.ajax({
+			url : url,
+			type : 'GET',
+			success : function(data){
+				this.setState({
+					data : data
+				})
+			}.bind(this)
+		})		
 	},
 
 	showTeamStatus : function(){
-		this.setState({
-			data : dataTeamStatus
+		url = "/oxfam-wishes/api/mainpagedata/getTeamStatus"
+		$.ajax({
+			url : url,
+			type : 'GET',
+			success : function(data){
+				this.setState({
+					data : data
+				})
+			}.bind(this)
 		})
+		
 	},
 
-	showWriteMessageBox : function(){
-
-	},
 	render : function(){
 		rows = [];
 		this.state.data.forEach(function(eachMessageDetail){
