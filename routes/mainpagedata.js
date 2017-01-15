@@ -47,7 +47,7 @@ router.get('/getUserMessages', function(req,res,next){
 router.post('/addUserMessage',function(req,res,next){
 	data = req.body;	
 	log.info({"Add userMessage data" : data})
-	data.time = new Date();
+	data.time = getISTCurrentTime();
 
 	rQuery = r.table(conf.get('database.tables.UserMessage'))
 	rQuery = rQuery.insert(data)
@@ -65,7 +65,7 @@ router.post('/addUserMessage',function(req,res,next){
 router.post('/addTeamStatus',function(req,res,next){
 	data = req.body;	
 	log.info({"Add Team Status data" : data})
-	data.time = new Date();
+	data.time = getISTCurrentTime();
 
 	rQuery = r.table(conf.get('database.tables.TeamStatus'))
 	rQuery = rQuery.insert(data)
@@ -79,5 +79,13 @@ router.post('/addTeamStatus',function(req,res,next){
 		res.send(200)
 	})
 })
+
+var getISTCurrentTime = function(){
+	var currentTime = new Date();
+	var currentOffset = currentTime.getTimezoneOffset();
+	var ISTOffset = 330;   // IST offset UTC +5:30 
+	var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+	return(ISTTime);
+}
 
 module.exports = router;

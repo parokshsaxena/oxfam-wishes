@@ -161,7 +161,7 @@ var Page = React.createClass({
 				</div>
 				<div className="well">
 				<p>Two of our teams, <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Mission I M Possible </a>
-				( Paroksh, Jainam, Apoorv, Shashank ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Game of trails </a> 
+				( Paroksh, Jainam, Apoorv, Shashank ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2450">Game of trails </a> 
 				( Neha, Astha, Shipra, Ankita ) are participating in oxfam. Wish them luck :)</p>
 				<p>You can browse through some of our video/content: 
 				<a className="text-info" href="https://www.youtube.com/watch?v=IQh9vdL_tDo&t=28s">Preparation Video</a>,  
