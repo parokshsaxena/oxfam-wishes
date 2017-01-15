@@ -7,8 +7,8 @@ var MessageBox = React.createClass({
 		time = this.props.messageDetails.time;
 		username = this.props.messageDetails.username;
 		return(
-			<div className="well well-sm center-block " style={{"border-radius" : "10px"}}>
-				<h4 className="text-center">{message}</h4><small> - {username} ( {time} )</small>
+			<div className="well well-sm center-block " style={{"border-radius" : "10px", "background-color" : "lightgoldenrodyellow"}}>
+				<h5 className="text-center">{message}</h5><small> - {username} ( {time} )</small>
 			</div>
 		)
 	}
@@ -64,9 +64,9 @@ var CaptureMessageBox = React.createClass({
 		return(
 			 <div className="modal-dialog">
 			    <div className="modal-content">
-			      <div className="modal-header">
+			      <div className="modal-header bg-success">
 			        <button type="button" className="close" data-dismiss="modal">&times;</button>
-			        <h4 className="modal-title">Your wishes will motivate us. Keep them coming!</h4>
+			        <h5 className="modal-title">Your wishes will motivate us. Keep them coming!</h5>
 			      </div>
 			      <div className="modal-body">
 				      <form>
@@ -83,7 +83,7 @@ var CaptureMessageBox = React.createClass({
 				      </form>
 			      </div>
 			      <div className="modal-footer">
-			        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.saveMessage}>Save</button>
+			        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.saveMessage}>Save</button>
 			      </div>
 			    </div>
 
@@ -150,17 +150,25 @@ var Page = React.createClass({
 		})
 
 		return(
-			<div className="container">
+			<div >
 				<div className="navbar navbar-default bg-primary navbar-fixed-top">
-				
-					<ul className="nav nav-pills nav-justified">
-						<li role="presentation" className="col-sm-1 " onClick={this.showWishes}><a href="#wishes">Wishes</a></li>
-						<li role="presentation" className="col-sm-1 " onClick={this.showTeamStatus}><a href="#teamStatus">Team Status</a></li>
-						<li role="presentation" className="col-sm-1" data-toggle="modal" data-target="#messageModal"><a href="#writeWishes">Write your wishes</a></li>
+					<ul className="nav nav-pills nav-justified bg-info">
+						<li role="presentation" className="col-sm-1" onClick={this.showWishes}><a className="text-success" href="#wishes">Wishes</a></li>
+						<li role="presentation" className="col-sm-1" onClick={this.showTeamStatus}><a className="text-success" href="#teamStatus">Team Status</a></li>
+						<li role="presentation" className="col-sm-1" data-toggle="modal" data-target="#messageModal"><a className="text-success" href="#writeWishes">Write your wishes</a></li>
 					</ul>
 					
 				</div>
-				<div>
+				<div className="well">
+				<p>Two of our teams, <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Mission I M Possible </a>
+				( Paroksh, Jainam, Apoorv, Shashank ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Game of trails </a> 
+				( Neha, Astha, Shipra, Ankita ) are participating in oxfam. Wish them luck :)</p>
+				<p>You can browse through some of our video/content: 
+				<a className="text-info" href="https://www.youtube.com/watch?v=IQh9vdL_tDo&t=28s">Preparation Video</a>,  
+				<a className="text-info" href="https://medium.com/@parokshsaxena/the-reason-behind-our-mission-100-km-oxfam-walk-26d3df622969#.nf9d7794o">Our motivation</a>				
+				</p>
+				</div>
+				<div className="bg-warning">
 					{rows}
 				</div>
 

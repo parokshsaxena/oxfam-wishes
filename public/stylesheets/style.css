@@ -8,5 +8,9 @@ a {
 }
 
 .well {
-	text-align : center ;
+	text-align : center;
+}
+
+.nav-default {
+	background-color: #E7E7E7
 }

@@ -17,7 +17,7 @@ router.get('/getTeamStatus', function(req,res,next){
 			throw(err)
 
 		result = result.map(function(item){
-			time = Date(item.time);			
+			time = new Date(item.time);			
 			item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
 			return item;
 		})
@@ -35,9 +35,8 @@ router.get('/getUserMessages', function(req,res,next){
 	rQuery.run(function(err,result){
 		if(err)
 			throw(err)
-
 		result = result.map(function(item){
-			time = Date(item.time);			
+			time = new Date(item.time);			
 			item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
 			return item;
 		})
