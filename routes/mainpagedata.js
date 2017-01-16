@@ -13,8 +13,10 @@ router.get('/getTeamStatus', function(req,res,next){
 	log.info({"Get Team Status" : rQuery.toString()})
 
 	rQuery.run(function(err,result){
-		if(err)
-			throw(err)
+		if(err){
+			log.error(err);
+			return [];
+		}
 
 		result = result.map(function(item){
 			time = new Date(item.time);			
@@ -33,8 +35,10 @@ router.get('/getUserMessages', function(req,res,next){
 	log.info({"Get User Message" : rQuery.toString()})
 
 	rQuery.run(function(err,result){
-		if(err)
-			throw(err)
+		if(err){
+			log.error(err);
+			return [];
+		}
 		result = result.map(function(item){
 			time = new Date(item.time);			
 			item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
@@ -55,8 +59,9 @@ router.post('/addUserMessage',function(req,res,next){
 
 	rQuery.run(function(err,result){
 		if(err){
-			log.error(err)
-			res.send(500)
+			log.error(err);
+			res.send(500);
+			return;
 		}
 		res.send(200)
 	})
@@ -75,6 +80,7 @@ router.post('/addTeamStatus',function(req,res,next){
 		if(err){
 			log.error(err)
 			res.send(500)
+			return;
 		}
 		res.send(200)
 	})
