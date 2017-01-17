@@ -17,6 +17,7 @@
     "morgan": "~1.7.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "redis": "^2.6.5",
     "rethinkdbdash": "^2.3.27",
     "serve-favicon": "~2.3.0"
   }

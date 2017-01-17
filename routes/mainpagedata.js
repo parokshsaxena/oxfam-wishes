@@ -5,47 +5,80 @@ var r = require('../database/database').connect();
 var bunyan = require('bunyan')
 var log = bunyan.createLogger({name : 'oxfam-mainpagedata', src : true})
 var moment = require('moment');
+var cacheObject = require("../utils/cacheLayer")
+var cache = new cacheObject();
+var TeamStatusCacheKey = "oxfam-teamStatus";
+var UserMessagesCacheKey = "oxfam-userMessages";
 
 router.get('/getTeamStatus', function(req,res,next){
 	log.info("Inside get team status function");
-	rQuery = r.table(conf.get('database.tables.TeamStatus'))
-	rQuery = rQuery.orderBy(r.desc("time"))
-	log.info({"Get Team Status" : rQuery.toString()})
+	
+	cache.get(TeamStatusCacheKey, function(err,value){
+		if(err || !value){
+			log.info("Data not found in cache. Getting from database");
+			rQuery = r.table(conf.get('database.tables.TeamStatus'))
+			rQuery = rQuery.orderBy(r.desc("time"))
+			log.info({"Get Team Status" : rQuery.toString()})
 
-	rQuery.run(function(err,result){
-		if(err){
-			log.error(err);
-			return [];
+			rQuery.run(function(err,result){
+				if(err){
+					log.error(err);
+					return [];
+				}
+
+				result = result.map(function(item){
+					time = new Date(item.time);			
+					item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
+					return item;
+				})
+				res.send(result)
+				cache.set(TeamStatusCacheKey, JSON.stringify(result), function(err,reply){
+					if(err)
+						log.error("Error saving data in cache. "+err);
+				})
+							
+			})
+		}else{
+			log.info("Got data from cache");
+			result = JSON.parse(value);
+			res.send(result);
 		}
-
-		result = result.map(function(item){
-			time = new Date(item.time);			
-			item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
-			return item;
-		})
-		res.send(result)			
 	})
-
+	
 })
 
 router.get('/getUserMessages', function(req,res,next){
 	log.info("Inside get user messages")
-	rQuery = r.table(conf.get('database.tables.UserMessage'))
-	rQuery = rQuery.orderBy(r.desc('time'))
-	log.info({"Get User Message" : rQuery.toString()})
+	cache.get(UserMessagesCacheKey, function(err,value){
+		if(err || !value){
+			rQuery = r.table(conf.get('database.tables.UserMessage'))
+			rQuery = rQuery.orderBy(r.desc('time'))
+			log.info({"Get User Message" : rQuery.toString()})
 
-	rQuery.run(function(err,result){
-		if(err){
-			log.error(err);
-			return [];
+			rQuery.run(function(err,result){
+				if(err){
+					log.error(err);
+					return [];
+				}
+				result = result.map(function(item){
+					time = new Date(item.time);			
+					item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
+					return item;
+				})
+				res.send(result)
+				//setting data in cache
+				cache.set(UserMessagesCacheKey, JSON.stringify(result), function(err,reply){
+					if(err)
+						log.error("Error saving data in cache. "+ err)
+				})
+			})
+		}else{
+			log.info("Got data from cache");
+			result = JSON.parse(value);
+			res.send(result);
 		}
-		result = result.map(function(item){
-			time = new Date(item.time);			
-			item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
-			return item;
-		})
-		res.send(result)
 	})
+	
 })
 
 router.post('/addUserMessage',function(req,res,next){
@@ -60,10 +93,11 @@ router.post('/addUserMessage',function(req,res,next){
 	rQuery.run(function(err,result){
 		if(err){
 			log.error(err);
-			res.send(500);
+			res.send(500);			
 			return;
 		}
-		res.send(200)
+		cache.delete(UserMessagesCacheKey);
+		res.sendStatus(200)
 	})
 })
 
@@ -82,7 +116,8 @@ router.post('/addTeamStatus',function(req,res,next){
 			res.send(500)
 			return;
 		}
-		res.send(200)
+		cache.delete(TeamStatusCacheKey);
+		res.sendStatus(200)
 	})
 })
 

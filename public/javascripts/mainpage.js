@@ -163,7 +163,7 @@ var Page = React.createClass({
 					<b>
 						<p>Two of our teams, <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Mission I M Possible </a>
 						( Paroksh, Jainam, Apoorv, Shashank ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2450">Game of Trails </a> 
-						( Neha, Astha, Shipra, Ankita ) are participating in Oxfam 2017, 19 Jan. Wish them luck :)</p>
+						( Neha, Astha, Shipra, Ankita ) are participating in Oxfam'17, 20 Jan. Wish them luck!</p>
 						<p>You can also browse through some of our video/content : <a className="text-info" href="https://www.youtube.com/watch?v=IQh9vdL_tDo&t=28s">Preparation Video</a>, <a className="text-info" href="https://medium.com/@parokshsaxena/the-reason-behind-our-mission-100-km-oxfam-walk-26d3df622969#.nf9d7794o">Our motivation</a>				
 						</p>
 					</b>
