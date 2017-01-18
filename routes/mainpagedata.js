@@ -102,7 +102,14 @@ router.post('/addUserMessage',function(req,res,next){
 })
 
 router.post('/addTeamStatus',function(req,res,next){
-	data = req.body;	
+	data = req.body;
+	console.log(process.env.adminPassword);
+	console.log(data.password);
+	if(data.password != process.env.adminPassword){
+		console.log("Not updating as user is not admin");
+		res.send(500);
+		return;
+	}
 	log.info({"Add Team Status data" : data})
 	data.time = getISTCurrentTime();
 

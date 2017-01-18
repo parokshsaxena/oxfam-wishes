@@ -5,7 +5,9 @@ var CaptureMessageBox = React.createClass({
 	getInitialState : function(){
 		return({
 			username : "",
-			message : ""
+			message : "",
+			image : "",
+			password: ""
 		})
 	},
 
@@ -21,15 +23,32 @@ var CaptureMessageBox = React.createClass({
 		})
 	},
 
+	captureImage : function(event){
+		this.setState({
+			image : event.target.value
+		})
+	},
+
+	capturePassword : function(event){
+		this.setState({
+			password : event.target.value
+		})
+	},
+
 	saveMessage : function(){
 		console.log(this.state.username);
 		console.log(this.state.message);
-
+		console.log(this.state.image);
+		
 		url = "/oxfam-wishes/api/mainpagedata/addTeamStatus";
 		data = {
 			message : this.state.message,
-			username : this.state.username
+			username : this.state.username,
+			password : this.state.password				
 		};
+		if( this.state.image ){
+			data.image = this.state.image;
+		}
 
 		$.ajax({
 			url : url,
@@ -65,6 +84,16 @@ var CaptureMessageBox = React.createClass({
 				      		<textarea className="form-control" id="message-text" placeholder="Status.."
 				      		onChange={this.captureMessage}>
 				      		</textarea>
+				      	</div>
+				      	<div className="form-group">
+				      		<input className="form-control" id="image-url" placeholder="image url.."
+				      		onChange={this.captureImage}>
+				      		</input>
+				      	</div>
+				      	<div className="form-group">
+				      		<input className="form-control" id="password-text" type="password" placeholder="password.."
+				      		onChange={this.capturePassword}>
+				      		</input>
 				      	</div>
 				      </form>
 			      </div>

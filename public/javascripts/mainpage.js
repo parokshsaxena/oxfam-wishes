@@ -6,9 +6,17 @@ var MessageBox = React.createClass({
 		message = this.props.messageDetails.message;
 		time = this.props.messageDetails.time;
 		username = this.props.messageDetails.username;
+		image = this.props.messageDetails.image;
+		if(image == undefined || ( image.match(/\.(jpeg|jpg|gif|png)/) == null )){
+			image = "";
+		}
+		console.log(image)
 		return(
 			<div className="well well-sm center-block " style={{"border-radius" : "10px", "background-color" : "#fcf8e3"}}>
 				<h5 className="text-center">{message}</h5><small> - {username} ( {time} )</small>
+				<div>
+					<img className="img-responsive center-block" style={{"max-width" : "50%"}} src={image}></img>
+				</div>
 			</div>
 		)
 	}
