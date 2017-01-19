@@ -105,7 +105,24 @@ var Page = React.createClass({
 	getInitialState : function(){
 		return {
 			type : "wishes",
-			data : []
+			data : [],
+			listItems : [
+				{
+					"name" : "Wishes",
+					"selected" : true,
+					"code" : "wishes"
+				},
+				{
+					"name" : "Team Status",
+					"selected" : false,
+					"code" : "status"
+				},
+				{
+					"name" : "Write Your Wishes",
+					"selected" : false,
+					"code" : "write"
+				}
+			]
 		}
 	},
 
@@ -137,6 +154,31 @@ var Page = React.createClass({
 		})		
 	},
 
+	listItemClicked: function(code){
+		var self = this;
+		return function(){
+			var listItems = self.state.listItems;
+
+			listItems.map(function(currItem){
+				if(currItem.code == code){
+					currItem.selected = true;
+				}else{
+					currItem.selected = false;
+				}
+			});
+			if(code == "wishes"){
+				self.showWishes();
+			}else if(code == "status"){
+				self.showTeamStatus();
+			}
+
+			self.setState({
+				listItems : listItems
+			});
+		}
+		
+	},
+
 	showTeamStatus : function(){
 		url = "/oxfam-wishes/api/mainpagedata/getTeamStatus"
 		$.ajax({
@@ -152,10 +194,21 @@ var Page = React.createClass({
 	},
 
 	render : function(){
+		var self = this;
 		rows = [];
 		this.state.data.forEach(function(eachMessageDetail){
 			rows.push(<MessageBox messageDetails={eachMessageDetail}/>);
 		})
+
+		var allListItems = this.state.listItems;
+		var listItemsHtml = allListItems.map(function(currItem){
+			var finalClass = currItem.selected ?  "col-sm-1 active" : "col-sm-1";
+			if( currItem.code == "write"){
+				return <li role="presentation" className={ finalClass } data-toggle="modal" data-target="#messageModal"><a className="text-success">{ currItem.name }</a></li>;
+			}else{
+				return <li role="presentation" className={ finalClass } onClick={ self.listItemClicked(currItem.code) } ><a className="text-success">{ currItem.name }</a></li>
+			}
+		});
 
 		return(
 			<div >
@@ -169,9 +222,7 @@ var Page = React.createClass({
 
 				<div className="navbar navbar-fixed-top">
 					<ul className="nav nav-pills nav-justified bg-info">
-						<li role="presentation" className="col-sm-1" onClick={this.showWishes}><a className="text-success" href="#wishes">Wishes</a></li>
-						<li role="presentation" className="col-sm-1" onClick={this.showTeamStatus}><a className="text-success" href="#teamStatus">Team Status</a></li>
-						<li role="presentation" className="col-sm-1" data-toggle="modal" data-target="#messageModal"><a className="text-success" href="#writeWishes">Write your wishes</a></li>
+						{ listItemsHtml }	
 					</ul>
 				</div>
 
