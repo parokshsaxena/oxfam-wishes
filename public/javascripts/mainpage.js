@@ -1,5 +1,9 @@
 /** @jsx React.DOM */
-var socket = io.connect();
+
+if( io!= undefined){//to handle cases where socket.io/socket.io.js is forbidden from places say office
+	var socket = io.connect();
+}
+
 
 var MessageBox = React.createClass({
 
@@ -126,14 +130,18 @@ var Page = React.createClass({
 	},
 	componentDidMount : function(){
 		var that = this;
-		socket.on("wishes-updated",function(){
-			console.log("wishes-updated")
-			that.showWishes();
-		});
-		socket.on("teamstatus-updated", function(){
-			console.log("teamstatus-updated");
-			that.showTeamStatus();
-		})
+		if( socket != undefined)
+		{
+			socket.on("wishes-updated",function(){
+				console.log("wishes-updated")
+				that.showWishes();
+			});
+			socket.on("teamstatus-updated", function(){
+				console.log("teamstatus-updated");
+				that.showTeamStatus();
+			})	
+		}
+		
 	},
 	showWishes : function(){
 		url = "/oxfam-wishes/api/mainpagedata/getUserMessages"
