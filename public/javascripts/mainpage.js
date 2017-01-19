@@ -159,6 +159,14 @@ var Page = React.createClass({
 
 		return(
 			<div >
+				<div className="navbar" style={{"margin-bottom":"0px"}}>
+					<ul className="nav nav-pills nav-justified bg-info">
+						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#wishes">Wishes</a></li>
+						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#teamStatus">Team Status</a></li>
+						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#writeWishes">Write your wishes</a></li>
+					</ul>
+				</div>
+
 				<div className="navbar navbar-fixed-top">
 					<ul className="nav nav-pills nav-justified bg-info">
 						<li role="presentation" className="col-sm-1" onClick={this.showWishes}><a className="text-success" href="#wishes">Wishes</a></li>
@@ -167,7 +175,7 @@ var Page = React.createClass({
 					</ul>
 				</div>
 
-				<div className="well" style={{"padding-top":"60px"}}>
+				<div className="well" >
 					<b>
 						<p>Two of our teams, <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Mission I M Possible </a>
 						( Paroksh, Jainam, Apoorv, Shashank ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2450">Game of Trails </a> 
