@@ -9,7 +9,7 @@ var cacheObject = require("../utils/cacheLayer")
 var cache = new cacheObject();
 var TeamStatusCacheKey = "oxfam-teamStatus";
 var UserMessagesCacheKey = "oxfam-userMessages";
-
+var sockets = require('../utils/sockets')
 router.get('/getTeamStatus', function(req,res,next){
 	log.info("Inside get team status function");
 	
@@ -98,6 +98,7 @@ router.post('/addUserMessage',function(req,res,next){
 		}
 		cache.delete(UserMessagesCacheKey);
 		res.sendStatus(200)
+		sockets.emitWishesUpdates();
 	})
 })
 
@@ -125,6 +126,7 @@ router.post('/addTeamStatus',function(req,res,next){
 		}
 		cache.delete(TeamStatusCacheKey);
 		res.sendStatus(200)
+		sockets.emitTeamStatusUpdates()
 	})
 })
 

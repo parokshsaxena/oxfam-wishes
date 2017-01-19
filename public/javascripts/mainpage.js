@@ -1,5 +1,11 @@
 /** @jsx React.DOM */
 
+try{//to handle cases where socket.io/socket.io.js is forbidden from places say office
+	var socket = io.connect();
+}catch(err){
+	console.log("Socket connection is not available.");
+}
+
 var MessageBox = React.createClass({
 
 	render : function(){
@@ -132,7 +138,6 @@ var Page = React.createClass({
 			url : url,
 			type : 'GET',
 			success : function(data){
-				console.log("Inside this")
 				console.log(data)
 				this.setState({
 					data : data
@@ -140,7 +145,21 @@ var Page = React.createClass({
 			}.bind(this)
 		})
 	},
-
+	componentDidMount : function(){
+		var that = this;
+		if( socket != undefined)
+		{
+			socket.on("wishes-updated",function(){
+				console.log("wishes-updated")
+				that.showWishes();
+			});
+			socket.on("teamstatus-updated", function(){
+				console.log("teamstatus-updated");
+				that.showTeamStatus();
+			})	
+		}
+		
+	},
 	showWishes : function(){
 		url = "/oxfam-wishes/api/mainpagedata/getUserMessages"
 		$.ajax({
