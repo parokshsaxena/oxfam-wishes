@@ -1,9 +1,10 @@
 /** @jsx React.DOM */
 
-if( io!= undefined){//to handle cases where socket.io/socket.io.js is forbidden from places say office
+try{//to handle cases where socket.io/socket.io.js is forbidden from places say office
 	var socket = io.connect();
+}catch(err){
+	console.log("Socket connection is not available.");
 }
-
 
 var MessageBox = React.createClass({
 
@@ -120,7 +121,6 @@ var Page = React.createClass({
 			url : url,
 			type : 'GET',
 			success : function(data){
-				console.log("Inside this")
 				console.log(data)
 				this.setState({
 					data : data
