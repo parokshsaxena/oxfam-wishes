@@ -10,9 +10,22 @@ var cache = new cacheObject();
 var TeamStatusCacheKey = "oxfam-teamStatus";
 var UserMessagesCacheKey = "oxfam-userMessages";
 var sockets = require('../utils/sockets')
+var TeamStatusData = require('../database/TeamStatusData.js').data
+var usermessageData = require('../database/UserMessageData').data
+
+
 router.get('/getTeamStatus', function(req,res,next){
 	log.info("Inside get team status function");
-	
+	//read data from js file as rethinkdb & redis will be closed
+	result = TeamStatusData;
+	result = result.map(function(item){
+					time = new Date(item.time);			
+					item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
+					return item;
+				});
+
+	return res.send(result);
+
 	cache.get(TeamStatusCacheKey, function(err,value){
 		if(err || !value){
 			log.info("Data not found in cache. Getting from database");
@@ -49,6 +62,16 @@ router.get('/getTeamStatus', function(req,res,next){
 
 router.get('/getUserMessages', function(req,res,next){
 	log.info("Inside get user messages")
+	//read data from js file as rethinkdb & redis will be closed
+	result = usermessageData;
+	result = result.map(function(item){
+					time = new Date(item.time);			
+					item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
+					return item;
+				});
+
+	return res.send(result);
+
 	cache.get(UserMessagesCacheKey, function(err,value){
 		if(err || !value){
 			rQuery = r.table(conf.get('database.tables.UserMessage'))
@@ -82,6 +105,8 @@ router.get('/getUserMessages', function(req,res,next){
 })
 
 router.post('/addUserMessage',function(req,res,next){
+	res.status(500).send("We have disabled add feature as database is not running");
+	return;
 	data = req.body;	
 	log.info({"Add userMessage data" : data})
 	data.time = getISTCurrentTime();
@@ -103,6 +128,7 @@ router.post('/addUserMessage',function(req,res,next){
 })
 
 router.post('/addTeamStatus',function(req,res,next){
+	res.status(500).send("We have disabled add feature as database is not running");
 	data = req.body;
 	console.log(process.env.adminPassword);
 	console.log(data.password);

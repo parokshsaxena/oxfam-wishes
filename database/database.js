@@ -3,6 +3,7 @@ var conf = require('config');
 var r;
 
 var connect = function(database){
+	return r;
 	if(r){
 		return r;
 	} else{
