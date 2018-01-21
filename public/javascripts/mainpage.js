@@ -259,6 +259,7 @@ var Page = React.createClass({
 						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#wishes">Wishes</a></li>
 						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#teamStatus">Team Status</a></li>
 						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#writeWishes">Write your wishes</a></li>
+						<li role="presentation" className="col-sm-1" ><a className="text-success" href="#lastyearwishes">Last year wishes</a></li>
 					</ul>
 				</div>
 
@@ -276,7 +277,7 @@ var Page = React.createClass({
 						( Utkarsh, Shashank, Sudarshini, Sameer )  are participating in Oxfam'18, 2nd Feb. Wish them luck!</p>
 						<p>You can also browse through some of our last year's video/content : <a className="text-info" href="https://www.youtube.com/watch?v=IQh9vdL_tDo&t=28s">Preparation Video </a>, 
 						<a className="text-info" href="https://medium.com/@parokshsaxena/the-reason-behind-our-mission-100-km-oxfam-walk-26d3df622969#.nf9d7794o">Our motivation </a>,
-						<a className="text-info" href="https://www.facebook.com/paroksh.saxena/media_set?set=a.10211683889000819.1073741850.1475123275&type=3">Oxfam 2017 </a>,		
+						<a className="text-info" href="https://www.facebook.com/paroksh.saxena/media_set?set=a.10211683889000819.1073741850.1475123275&type=3">Oxfam 2017 </a>		
 						</p>
 					</b>
 				</div>
