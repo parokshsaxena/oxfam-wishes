@@ -15,13 +15,15 @@ var MessageBox = React.createClass({
 		image = this.props.messageDetails.image;
 		if(image == undefined || ( image.match(/\.(jpeg|jpg|gif|png)/) == null )){
 			image = "";
-		}
+		}		
 		console.log(image)
 		return(
 			<div className="well well-sm center-block " style={{"border-radius" : "10px", "background-color" : "#fcf8e3"}}>
 				<h5 className="text-center">{message}</h5><small> - {username} ( {time} )</small>
 				<div>
+				{ image !="" &&
 					<img className="img-responsive center-block" style={{"max-width" : "50%"}} src={image}></img>
+				}
 				</div>
 			</div>
 		)
@@ -127,6 +129,11 @@ var Page = React.createClass({
 					"name" : "Write Your Wishes",
 					"selected" : false,
 					"code" : "write"
+				},
+				{
+					"name" : "Last Year Wishes",
+					"selected" : false,
+					"code" : "lastYear"
 				}
 			]
 		}
@@ -189,6 +196,8 @@ var Page = React.createClass({
 				self.showWishes();
 			}else if(code == "status"){
 				self.showTeamStatus();
+			}else if(code == 'lastYear'){
+				self.showLastYearWishes();
 			}
 
 			self.setState({
@@ -198,6 +207,20 @@ var Page = React.createClass({
 		
 	},
 
+	showLastYearWishes : function(){
+		url = "/oxfam-wishes/api/mainpagedata/getLastYearUserMessages"
+		$.ajax({
+			url : url,
+			type : 'GET',
+			success : function(data){
+				this.setState({
+					data : data
+				})
+			}.bind(this)
+		})
+		
+	},
+	
 	showTeamStatus : function(){
 		url = "/oxfam-wishes/api/mainpagedata/getTeamStatus"
 		$.ajax({
@@ -247,10 +270,13 @@ var Page = React.createClass({
 
 				<div className="well" >
 					<b>
-						<p>Two of our teams, <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2509">Mission I M Possible </a>
-						( Paroksh, Jainam, Apoorv, Shashank ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM2450">Game of Trails </a> 
-						( Neha, Astha, Shipra, Ankita ) are participating in Oxfam'17, 20 Jan. Wish them luck!</p>
-						<p>You can also browse through some of our video/content : <a className="text-info" href="https://www.youtube.com/watch?v=IQh9vdL_tDo&t=28s">Preparation Video</a>, <a className="text-info" href="https://medium.com/@parokshsaxena/the-reason-behind-our-mission-100-km-oxfam-walk-26d3df622969#.nf9d7794o">Our motivation</a>				
+						<p>Three of our teams, <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM3164">What Were We Thinking (GS) </a>
+						( Paroksh, Apoorv, Ayush, Pratik ), <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM3159">Cakewalk (GS) </a> 
+						( Jainam, Sai Natraj, Vivin, Pratul ) and <a className="text-info" href="https://trailwalker.oxfamindia.org/TEAM3162">Misfits (GS) </a>
+						( Utkarsh, Shashank, Sudarshini, Sameer )  are participating in Oxfam'18, 2nd Feb. Wish them luck!</p>
+						<p>You can also browse through some of our last year's video/content : <a className="text-info" href="https://www.youtube.com/watch?v=IQh9vdL_tDo&t=28s">Preparation Video </a>, 
+						<a className="text-info" href="https://medium.com/@parokshsaxena/the-reason-behind-our-mission-100-km-oxfam-walk-26d3df622969#.nf9d7794o">Our motivation </a>,
+						<a className="text-info" href="https://www.facebook.com/paroksh.saxena/media_set?set=a.10211683889000819.1073741850.1475123275&type=3">Oxfam 2017 </a>,		
 						</p>
 					</b>
 				</div>

@@ -10,6 +10,21 @@ var cache = new cacheObject();
 var TeamStatusCacheKey = "oxfam-teamStatus";
 var UserMessagesCacheKey = "oxfam-userMessages";
 var sockets = require('../utils/sockets')
+var lastYearUsermessageData = require('../database/lastYearUserMessageData').data
+
+router.get('/getLastYearUserMessages', function(req,res,next){
+	log.info("Inside get last year user messages")
+	//read data from js file as rethinkdb & redis will be closed
+	result = lastYearUsermessageData;
+	result = result.map(function(item){
+					time = new Date(item.time);			
+					item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
+					return item;
+				});
+
+	return res.send(result);
+})
+
 router.get('/getTeamStatus', function(req,res,next){
 	log.info("Inside get team status function");
 	
