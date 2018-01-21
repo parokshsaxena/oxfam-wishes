@@ -18,7 +18,7 @@ router.get('/getLastYearUserMessages', function(req,res,next){
 	result = lastYearUsermessageData;
 	result = result.map(function(item){
 					time = new Date(item.time);			
-					item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
+					//item.time = moment(time).format('MMM Do YYYY, h:mm:ss a')
 					return item;
 				});
 
