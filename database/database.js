@@ -9,7 +9,8 @@ var connect = function(database){
 		database = database || conf.get('database.name');
 		r = require('rethinkdbdash')({
 			servers : conf.get('database.servers'),
-			db : database
+			db : database,
+			password : conf.get('database.password')
 		});
 		return r;
 	}

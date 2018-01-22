@@ -6,6 +6,7 @@
 		"servers" : [
 			{"host" : "localhost", "port" : 28015}
 		],
+		"password" : "18039fd6fb6e57660ea9ded0212ead62",
 		"name" : "oxfamWishes",
 		"tables" : {
 			"TeamStatus" : "TeamStatus",
