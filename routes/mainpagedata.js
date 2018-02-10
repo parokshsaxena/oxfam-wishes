@@ -10,7 +10,10 @@ var cache = new cacheObject();
 var TeamStatusCacheKey = "oxfam-teamStatus";
 var UserMessagesCacheKey = "oxfam-userMessages";
 var sockets = require('../utils/sockets')
-var lastYearUsermessageData = require('../database/lastYearUserMessageData').data
+var lastYearUsermessageData = require('../database/lastYearUserMessageData').data;
+var userMessageData = require('../database/userMessageData').data;
+var teamStatusData = require('../database/teamStatusData').data;
+
 
 router.get('/getLastYearUserMessages', function(req,res,next){
 	log.info("Inside get last year user messages")
@@ -27,8 +30,9 @@ router.get('/getLastYearUserMessages', function(req,res,next){
 
 router.get('/getTeamStatus', function(req,res,next){
 	log.info("Inside get team status function");
-	
-	cache.get(TeamStatusCacheKey, function(err,value){
+	result = teamStatusData
+	return res.send(result);
+	/*cache.get(TeamStatusCacheKey, function(err,value){
 		if(err || !value){
 			log.info("Data not found in cache. Getting from database");
 			rQuery = r.table(conf.get('database.tables.TeamStatus'))
@@ -58,13 +62,16 @@ router.get('/getTeamStatus', function(req,res,next){
 			result = JSON.parse(value);
 			res.send(result);
 		}
-	})
+	})*/
 	
 })
 
 router.get('/getUserMessages', function(req,res,next){
 	log.info("Inside get user messages")
-	cache.get(UserMessagesCacheKey, function(err,value){
+	result = userMessageData;
+	return res.send(result);
+
+	/*cache.get(UserMessagesCacheKey, function(err,value){
 		if(err || !value){
 			rQuery = r.table(conf.get('database.tables.UserMessage'))
 			rQuery = rQuery.orderBy(r.desc('time'))
@@ -92,12 +99,14 @@ router.get('/getUserMessages', function(req,res,next){
 			result = JSON.parse(value);
 			res.send(result);
 		}
-	})
+	})*/
 	
 })
 
 router.post('/addUserMessage',function(req,res,next){
-	data = req.body;	
+	res.status(500).send("We have disabled add feature as database is not running");
+	return
+	/*data = req.body;	
 	log.info({"Add userMessage data" : data})
 	data.time = getISTCurrentTime();
 
@@ -114,11 +123,13 @@ router.post('/addUserMessage',function(req,res,next){
 		cache.delete(UserMessagesCacheKey);
 		res.sendStatus(200)
 		sockets.emitWishesUpdates();
-	})
+	})*/
 })
 
 router.post('/addTeamStatus',function(req,res,next){
-	data = req.body;
+	res.status(500).send("We have disabled add feature as database is not running");
+	return
+	/*data = req.body;
 	console.log(process.env.adminPassword);
 	console.log(data.password);
 	if(data.password != process.env.adminPassword){
@@ -142,7 +153,7 @@ router.post('/addTeamStatus',function(req,res,next){
 		cache.delete(TeamStatusCacheKey);
 		res.sendStatus(200)
 		sockets.emitTeamStatusUpdates()
-	})
+	})*/
 })
 
 var getISTCurrentTime = function(){

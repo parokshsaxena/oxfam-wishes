@@ -3,7 +3,8 @@ var conf = require('config');
 var r;
 
 var connect = function(database){
-	if(r){
+	return r;
+	/*if(r){
 		return r;
 	} else{
 		database = database || conf.get('database.name');
@@ -13,7 +14,7 @@ var connect = function(database){
 			password : conf.get('database.password')
 		});
 		return r;
-	}
+	}*/
 }
 
 var close = function(){

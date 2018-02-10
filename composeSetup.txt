@@ -1,0 +1,23 @@
+1. Create account with https://www.compose.com/ ( you get 30 days free trial ). You'll have to give credit card info
+2. Create rethinkdb deployment
+3. By default, compose sets a password for admin user of rethinkdb. Password will be present in 'Credentials' field in 'Overview'
+4. You can remove the password protection from rethinkdb using below command
+r.db('rethinkdb').table('users').get('admin').update({"password":false})
+You should prefer to use the password in your connect rather then removing the password
+5. For ssh tunneling
+- enable ssh profile from compose UI ( 4.5$ per month charges) - This will start showing you option of adding a portal user 
+- create a user and copy ssh key from your laptop
+- This will start showing you SSH Tunnel Configuration in Overview page of compose rethinkdb instance
+- Run that command to create a tunnel ( for driver or for admin UI )
+Ex: ssh -N compose@aws-us-east-1-portal.31.dblayer.com -p 26755 -L 127.0.0.1:8081:10.204.202.131:8080
+ssh -N compose@aws-us-east-1-portal.31.dblayer.com -p 26755 -L 127.0.0.1:28015:10.204.202.131:28015
+
+
+For local setup:
+> setup ssh tunnel
+https://help.compose.com/docs/connecting-to-rethinkdb
+https://www.compose.com/articles/connecting-to-composes-rethinkdb-deployments-with-ssh/
+
+
+For heroku
+https://www.compose.com/articles/tunneling-from-heroku-to-compose-rethinkdb/
